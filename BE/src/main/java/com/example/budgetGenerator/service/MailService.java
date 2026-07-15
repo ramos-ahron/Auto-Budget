@@ -1,5 +1,6 @@
 package com.example.budgetGenerator.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,12 @@ import jakarta.mail.internet.MimeMessage;
 @Service
 public class MailService {
     private final JavaMailSender mailSender;
+    private final String fromAddress;
 
     // Constructor
-    public MailService(JavaMailSender sender) {
+    public MailService(JavaMailSender sender, @Value("${mail.username}") String fromAddress) {
         this.mailSender = sender;
+        this.fromAddress = fromAddress;
     }
 
     //Sends budget receipt to the user
@@ -63,7 +66,7 @@ public class MailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         // Set email parameters
-        helper.setFrom("acmeplex2@gmail.com");
+        helper.setFrom(fromAddress);
         helper.setTo(recepient);
         helper.setSubject("Budget Receipt");
         helper.setText(convertMarkdownToHtml(content), true);
