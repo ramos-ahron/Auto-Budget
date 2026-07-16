@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -28,7 +29,8 @@ public class MailService {
             "Best regards,<br>" +
             "<strong>Budget Bozos</strong><br>" +
             "SENG 401 L02 Group 10<br>",
-            userEmail, budgetResponse
+            // Escape caller-supplied text so it cannot inject HTML into the email
+            HtmlUtils.htmlEscape(userEmail), HtmlUtils.htmlEscape(budgetResponse)
         );
 
         sendEmail(userEmail, "Budget Receipt", body);

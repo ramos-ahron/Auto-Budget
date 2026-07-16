@@ -1,6 +1,8 @@
 package com.example.budgetGenerator.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 
 class MailServiceTests {
     private final JavaMailSender sender = mock(JavaMailSender.class);
@@ -36,6 +39,17 @@ class MailServiceTests {
     void budgetReceiptUsesReceiptSubject() throws Exception {
         MimeMessage message = send(() -> mailService.sendBudgetReceipt("user@example.com", "ok"));
         assertEquals("Budget Receipt", message.getSubject());
+    }
+
+    @Test
+    void budgetReceiptEscapesHtmlButKeepsMarkdownFormatting() throws Exception {
+        MimeMessage message = send(() -> mailService.sendBudgetReceipt(
+            "user@example.com", "**Total** <a href=\"https://evil.example\">click</a>"));
+        String html = (String) ((MimeMultipart) ((MimeMultipart) message.getContent())
+            .getBodyPart(0).getContent()).getBodyPart(0).getContent();
+        assertTrue(html.contains("<strong>Total</strong>"));
+        assertTrue(html.contains("&lt;a href="));
+        assertFalse(html.contains("<a href="));
     }
 
     interface ThrowingAction {
