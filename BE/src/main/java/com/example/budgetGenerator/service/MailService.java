@@ -68,7 +68,7 @@ public class MailService {
         // Set email parameters
         helper.setFrom(fromAddress);
         helper.setTo(recepient);
-        helper.setSubject("Budget Receipt");
+        helper.setSubject(subject);
         helper.setText(convertMarkdownToHtml(content), true);
 
         mailSender.send(message);
