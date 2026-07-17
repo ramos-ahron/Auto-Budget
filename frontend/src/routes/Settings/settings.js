@@ -22,14 +22,13 @@ const SettingsPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/user/updatePassword", {
+      const response = await fetch(`${process.env.REACT_APP_BUDGETS_API || 'http://localhost:8080'}/user/updatePassword`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, currentPassword, password: newPassword }),
       });
 
       const data = await response.json();
-      console.log("Server Response:", data);
 
       if (response.ok) {
         setMessage("Password updated successfully!");
@@ -50,9 +49,7 @@ const SettingsPage = () => {
     }
 
     try {
-      console.log("Sending request with:", { email: deleteEmail, password: deletePassword });
-
-      const response = await fetch("http://localhost:8080/user/delete", {
+      const response = await fetch(`${process.env.REACT_APP_BUDGETS_API || 'http://localhost:8080'}/user/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -62,7 +59,6 @@ const SettingsPage = () => {
       });
 
       const data = await response.json();
-      console.log("Server Response:", data);
 
       if (response.ok) {
         setDeleteMessage("Account deleted successfully!");
