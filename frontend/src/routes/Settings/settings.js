@@ -6,6 +6,7 @@ import "./settings.css";
 const SettingsPage = () => {
   // Separate states for password update and account deletion
   const [email, setEmail] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
 
@@ -15,8 +16,8 @@ const SettingsPage = () => {
 
   // Function to update the password
   const handlePasswordChange = async () => {
-    if (!email || !newPassword) {
-      setMessage("Email and password cannot be empty!");
+    if (!email || !currentPassword || !newPassword) {
+      setMessage("Email and both passwords are required.");
       return;
     }
 
@@ -24,7 +25,7 @@ const SettingsPage = () => {
       const response = await fetch("http://localhost:8080/user/updatePassword", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password: newPassword }),
+        body: JSON.stringify({ email, currentPassword, password: newPassword }),
       });
 
       const data = await response.json();
@@ -89,6 +90,12 @@ const SettingsPage = () => {
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Current Password"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
         />
         <input
           type="password"

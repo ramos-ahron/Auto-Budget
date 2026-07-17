@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class BasicUserDTO {
     private String email;
     private String password;
+    // Only used by /user/updatePassword, where password is the new password
+    private String currentPassword;
 }
