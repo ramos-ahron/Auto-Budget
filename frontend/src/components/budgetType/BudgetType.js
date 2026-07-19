@@ -2,7 +2,7 @@ import { useState, forwardRef, useImperativeHandle } from "react";
 import "./budgetType.css";
 
 const BudgetType = forwardRef((props, ref) => {
-    const [selectedType, setSelectedType] = useState("weekly");
+    const [selectedType, setSelectedType] = useState("monthly");
     const [customValue, setCustomValue] = useState(1);
     const [customUnit, setCustomUnit] = useState("weeks");
 

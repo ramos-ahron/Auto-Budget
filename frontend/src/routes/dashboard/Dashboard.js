@@ -119,7 +119,7 @@ function Dashboard({ budgetData }) {
     const [processedData, setProcessedData] = useState({
         expensesArray: [],
         incomesArray: [],
-        budgetType: "weekly",
+        budgetType: "monthly",
         notes: []
     });
 
@@ -178,11 +178,11 @@ function Dashboard({ budgetData }) {
             setProcessedData({
                 expensesArray,
                 incomesArray,
-                budgetType: "weekly",
+                budgetType: "monthly",
                 notes: response ? [{ text: response }] : []
             });
 
-            applyDataToForms(expensesArray, incomesArray, "weekly", response);
+            applyDataToForms(expensesArray, incomesArray, "monthly", response);
         }
     }, [budgetData]);
 
