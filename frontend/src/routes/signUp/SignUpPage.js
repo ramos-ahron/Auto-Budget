@@ -65,8 +65,8 @@ function SignUpPage() {
             password: password,
         };
 
-        validatePassword(userData.password);
-        if (!passwordValid) return; // Prevent submission if password is invalid
+        validatePassword(password);
+        if (password.length < 6) return; // State updates are async, so check the value directly
 
         try {
             const response = await fetch(`${process.env.REACT_APP_BUDGETS_API || 'http://localhost:8080'}/user/register`, {
@@ -80,7 +80,7 @@ function SignUpPage() {
                 navigate("/login");
             } else {
                 const errorData = await response.json();
-                setError(errorData.message || "Signup failed. Try again.");
+                setError(errorData.response || "Signup failed. Try again.");
             }
         } catch (error) {
             setError("Server error. Please try again later.");
