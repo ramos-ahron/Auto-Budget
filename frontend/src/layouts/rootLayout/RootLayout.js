@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "./rootLayout.css";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -8,6 +8,16 @@ function RootLayout() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+        const checkLoginStatus = () => {
+            setIsLoggedIn(!!localStorage.getItem("userToken"));
+        };
+
+        const handleStorageChange = (event) => {
+            if (event.key === "userToken") {
+                checkLoginStatus();
+            }
+        };
+
         checkLoginStatus();
 
         window.addEventListener('storage', handleStorageChange);
@@ -19,17 +29,6 @@ function RootLayout() {
             window.removeEventListener('loginStatusChanged', checkLoginStatus);
         };
     }, []);
-
-    const checkLoginStatus = () => {
-        const userToken = localStorage.getItem("userToken");
-        setIsLoggedIn(!!userToken);
-    };
-
-    const handleStorageChange = (event) => {
-        if (event.key === "userToken") {
-            checkLoginStatus();
-        }
-    };
 
     return (
         <div className="RootLayout">

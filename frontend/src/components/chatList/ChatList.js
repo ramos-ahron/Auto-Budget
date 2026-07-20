@@ -17,9 +17,7 @@ function ChatList() {
     const [completedAnimations, setCompletedAnimations] = useState(new Set());
     const previousBudgetsRef = useRef([]);
 
-    const userToken = localStorage.getItem("userToken");
     const userEmail = localStorage.getItem("userEmail");
-    const isGuest = !userToken;
 
     // Query for fetching budgets
     const { isPending, error, data } = useQuery({

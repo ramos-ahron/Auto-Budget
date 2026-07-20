@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import './dashboardLayout.css';
 import ChatList from '../../components/chatList/ChatList';
 import MenuIcon from '@mui/icons-material/Menu';
