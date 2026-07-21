@@ -71,7 +71,23 @@
     transition: opacity 0.3s ease;
 }
 
-.budget-title:hover .edit-icon {
+.edit-title-btn {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.edit-title-btn:focus-visible {
+    outline: 2px solid #64ecf5;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.budget-title:hover .edit-icon,
+.edit-title-btn:focus-visible .edit-icon {
     opacity: 1;
 }
 

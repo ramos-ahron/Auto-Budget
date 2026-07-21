@@ -64,12 +64,14 @@ const Expenses = forwardRef((props, ref) => {
                 <input
                     type="text"
                     placeholder="Expense Type"
+                    aria-label="Expense Type"
                     value={expenseType}
                     onChange={(e) => setExpenseType(e.target.value)}
                 />
                 <input
                     type="number"
                     placeholder="Amount ($)"
+                    aria-label="Amount ($)"
                     value={expenseAmount}
                     onChange={(e) => setExpenseAmount(e.target.value)}
                 />

@@ -229,6 +229,7 @@ function ChatList() {
                                             type="text"
                                             value={editTitle}
                                             onChange={(e) => setEditTitle(e.target.value)}
+                                            aria-label="Budget title"
                                             autoFocus
                                         />
                                         <button type="submit" className="icon-btn save-btn" title="Save">

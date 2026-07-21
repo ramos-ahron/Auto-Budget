@@ -100,6 +100,8 @@ function SignUpPage() {
                         type="text"
                         name="firstName"
                         placeholder="First Name"
+                        aria-label="First Name"
+                        autoComplete="given-name"
                         ref={firstNameRef}
                         required
                     />
@@ -107,6 +109,8 @@ function SignUpPage() {
                         type="text"
                         name="lastName"
                         placeholder="Last Name"
+                        aria-label="Last Name"
+                        autoComplete="family-name"
                         ref={lastNameRef}
                         required
                     />
@@ -114,6 +118,8 @@ function SignUpPage() {
                         type="email"
                         name="email"
                         placeholder="Email"
+                        aria-label="Email"
+                        autoComplete="email"
                         ref={emailRef}
                         required
                     />
@@ -121,6 +127,8 @@ function SignUpPage() {
                         type="password"
                         name="password"
                         placeholder="Password"
+                        aria-label="Password"
+                        autoComplete="new-password"
                         ref={passwordRef}
                         onChange={(e) => validatePassword(e.target.value)}
                         className={!passwordValid ? "invalid-input" : ""}
@@ -131,6 +139,8 @@ function SignUpPage() {
                         type="password"
                         name="confirmPassword"
                         placeholder="Confirm Password"
+                        aria-label="Confirm Password"
+                        autoComplete="new-password"
                         ref={confirmPasswordRef}
                         required
                     />

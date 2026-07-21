@@ -73,7 +73,7 @@ const SettingsPage = () => {
   return (
     <div className="settings-container">
       <Helmet>
-        <title>Signup - AutoBudget</title>
+        <title>Settings - AutoBudget</title>
       </Helmet>
       <h2 className="settings-title">User Settings</h2>
 
@@ -83,18 +83,24 @@ const SettingsPage = () => {
         <input
           type="email"
           placeholder="Enter your email"
+          aria-label="Email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Current Password"
+          aria-label="Current Password"
+          autoComplete="current-password"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
         />
         <input
           type="password"
           placeholder="New Password"
+          aria-label="New Password"
+          autoComplete="new-password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
@@ -111,12 +117,16 @@ const SettingsPage = () => {
         <input
           type="email"
           placeholder="Enter your email"
+          aria-label="Email"
+          autoComplete="email"
           value={deleteEmail}
           onChange={(e) => setDeleteEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Current Password"
+          aria-label="Current Password"
+          autoComplete="current-password"
           value={deletePassword}
           onChange={(e) => setDeletePassword(e.target.value)}
         />

@@ -588,6 +588,7 @@ function Dashboard({ budgetData }) {
                             type="text"
                             value={editTitle}
                             onChange={(e) => setEditTitle(e.target.value)}
+                            aria-label="Budget title"
                             autoFocus
                             className="title-input"
                         />
@@ -606,7 +607,10 @@ function Dashboard({ budgetData }) {
                 ) : (
                     <h1 className="budget-title" onClick={handleEditStart}>
                         {title}
-                        <EditIcon fontSize="small" className="edit-icon" />
+                        {/* Keyboard access: activating this button bubbles the click to the h1 */}
+                        <button type="button" className="edit-title-btn" aria-label="Edit budget title">
+                            <EditIcon fontSize="small" className="edit-icon" />
+                        </button>
                     </h1>
                 )}
 

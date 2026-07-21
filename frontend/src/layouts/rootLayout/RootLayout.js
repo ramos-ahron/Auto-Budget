@@ -39,11 +39,11 @@ function RootLayout() {
                 </Link>
                 <div className="profile">
                     {isLoggedIn ? (
-                        <Link to="/settings">
+                        <Link to="/settings" aria-label="Settings">
                             <SettingsIcon />
                         </Link>
                     ) : (
-                        <Link to="/login">
+                        <Link to="/login" aria-label="Log in">
                             <AccountCircleIcon />
                         </Link>
                     )}

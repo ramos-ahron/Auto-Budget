@@ -38,7 +38,12 @@ function DashboardLayout() {
     return (
         <div className="dashboard-container">
             {/* Mobile sidebar toggle button - Added open class */}
-            <button className={`sidebar-toggle ${sidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
+            <button
+                className={`sidebar-toggle ${sidebarOpen ? 'open' : ''}`}
+                onClick={toggleSidebar}
+                aria-label="Toggle budget list"
+                aria-expanded={sidebarOpen}
+            >
                 <MenuIcon />
             </button>
 
