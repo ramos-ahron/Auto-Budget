@@ -50,11 +50,11 @@ README.md                # Main project documentation
 
 ### Software Requirements
 - **Docker and Docker Compose** (recommended), or:
-- Java JDK 11+
-- Maven 3.6+
-- Node.js 14+ and npm
+- Java JDK 21 (Maven is optional; the `mvnw` wrapper downloads it)
+- Node.js 20+ and npm
 - MySQL 8
-- A Google Gemini API key ([Google AI Studio](https://aistudio.google.com/))
+- A Google Cloud project with Vertex AI enabled, and a service account key for it
+- Optional: a Gmail account with an app password, for emailed budget receipts
 
 ## How to Use
 
@@ -63,12 +63,16 @@ README.md                # Main project documentation
 2. Create a `.env` file in the project root:
    ```
    DB_ROOT_PASSWORD=your_root_password
+   # Optional, needed only for emailed receipts
+   MAIL_USERNAME=you@gmail.com
+   MAIL_PASSWORD=your_gmail_app_password
    ```
-3. Build and start all services:
+3. Save your Google Cloud service account key as `BE/src/main/resources/application_default_credentials.json` (it is gitignored), and set `spring.ai.vertex.ai.gemini.project-id` in `BE/src/main/resources/application.properties` to your project.
+4. Build and start all services:
    ```
    docker compose up --build
    ```
-4. Open the app:
+5. Open the app:
    - Frontend: http://localhost:3000
    - Backend: http://localhost:8080
 
@@ -78,17 +82,19 @@ README.md                # Main project documentation
 2. Run the scripts in `sql_files/`.
 
 **Backend**
-1. Set the datasource and Gemini API key in the backend configuration:
+1. Set up the Vertex AI credentials as in step 3 of the Docker option.
+2. Set these environment variables (defaults are in `BE/src/main/resources/application.properties`):
    ```
    SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/budgetgeneratordatabase
    SPRING_DATASOURCE_USERNAME=<username>
    SPRING_DATASOURCE_PASSWORD=<password>
+   MAIL_USERNAME=<gmail address>        # optional
+   MAIL_PASSWORD=<gmail app password>   # optional
    ```
-2. Build and run:
+3. Build and run:
    ```
    cd BE
-   mvn clean install
-   mvn spring-boot:run
+   ./mvnw spring-boot:run
    ```
    Server runs at http://localhost:8080.
 
@@ -99,6 +105,13 @@ npm install
 npm start
 ```
 App runs at http://localhost:3000.
+
+**Tests**
+```
+cd BE
+./mvnw test
+```
+`BudgetGeneratorApplicationTests` starts the full app, so it needs MySQL running. The other tests don't. The Selenium UI tests in `testing/` expect the whole app to be running; see `testing/README.md`.
 
 ### Using the App
 1. Register or log in.
@@ -117,7 +130,7 @@ App runs at http://localhost:3000.
 
 ### AI Issues
 - **No Recommendations Returned:**
-  - Verify your Gemini API key is set and valid.
+  - Verify the Vertex AI credentials file and project ID are set and valid.
   - Check backend logs for API errors.
 
 ### Frontend Issues

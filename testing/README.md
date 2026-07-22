@@ -1,8 +1,6 @@
-### Important Commands for Initialization (if needed)
+### Install Dependencies
 ##### (Assuming inside the "./testing/" dir)
-npm init -y
-<br>
-npm install selenium-webdriver mocha chromedriver
+npm install
 
 
 ### Running Test.js Files
