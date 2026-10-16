@@ -1,109 +1,140 @@
-# 💰 Auto Budget - Smart Financial Management
+# Auto Budget – Smart Financial Management
 
-## 📋 Overview
+Auto Budget is a full-stack personal finance application for tracking income and expenses. It uses Google's Gemini LLM to provide data-driven insights, budget recommendations, and spending forecasts, with a React frontend, a Spring Boot REST API, and a MySQL database.
 
-Auto Budget is an intelligent financial management system designed to simplify personal finance management. By leveraging Google's Gemini AI, the application provides data-driven insights and personalized budget recommendations tailored to your financial habits and goals.
+## Features
 
----
+### Core Functionality
+- **Account Management:**
+  - Register and log in to a personal profile.
+- **Income & Expense Tracking:**
+  - Add salary and other income sources.
+  - Log recurring and one-time expenses.
+  - Spending is organized into categories.
+- **Visual Analytics:**
+  - Charts and graphs of spending over time.
+- **Goal Setting:**
+  - Define financial goals and track progress.
 
-## ✨ Key Features
+### AI-Powered Features
+- **Pattern Recognition:** Identifies spending habits you might miss.
+- **Smart Suggestions:** Actionable advice to optimize your budget.
+- **Financial Forecasting:** Projects future scenarios from current behavior.
+- **Goal Optimization:** Recommends adjustments to reach targets faster.
 
-- 📊 **Intelligent Tracking** - Seamlessly monitor income and expenses
-- 🏷️ **Smart Categorization** - Automatically organize spending into meaningful categories
-- 📈 **Visual Analytics** - Understand your finances through intuitive charts and graphs
-- 🤖 **AI-Powered Recommendations** - Get personalized budget advice from Gemini LLM
-- 🎯 **Goal Setting** - Define and track progress toward financial objectives
-- 🔮 **Predictive Insights** - Receive forecasts based on your spending patterns
+### Technical Highlights
+- **Layered Architecture:** Separate React client, Spring Boot REST API, and MySQL database.
+- **Containerized Deployment:** Single-command startup with Docker Compose.
+- **Automated DB Initialization:** SQL scripts run on first container start.
 
----
+## Technologies Used
 
-## 🛠️ Tech Stack
+- **Java (Spring Boot):** Backend REST API, built with Maven.
+- **React.js:** Frontend user interface.
+- **MySQL 8:** Relational data storage.
+- **Google Gemini LLM:** AI recommendations and forecasting.
+- **Docker / Docker Compose:** Containerized deployment.
 
-| Component | Technology |
-|-----------|------------|
-| **Backend** | Java Spring Boot |
-| **Frontend** | React.js |
-| **AI Engine** | Google Gemini LLM |
-| **Database** | MySQL |
+## Project Structure
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Java JDK 11 or higher
-- Node.js (v14+) and npm
-- Maven 3.6+
-- MySQL
-
-### Backend Setup
-
-```bash
-# Navigate to backend directory
-cd ./BE/
-
-# Install dependencies and build
-mvn clean install
-
-# Launch the application
-mvn spring-boot:run
 ```
-> 🌐 Backend server will be available at http://localhost:8080
+BE/                      # Spring Boot backend
+frontend/                # React client
+sql_files/               # Database init scripts
+testing/                 # Tests
+docker-compose.yml       # Orchestrates MySQL, backend, and frontend
+README.md                # Main project documentation
+```
 
-### Frontend Setup
+## Setup Instructions
 
-```bash
-# Navigate to frontend directory
-cd ./FE/
+### Software Requirements
+- **Docker and Docker Compose** (recommended), or:
+- Java JDK 11+
+- Maven 3.6+
+- Node.js 14+ and npm
+- MySQL 8
+- A Google Gemini API key ([Google AI Studio](https://aistudio.google.com/))
 
-# Install dependencies
+## How to Use
+
+### Option 1: Docker (Recommended)
+1. Clone this repository.
+2. Create a `.env` file in the project root:
+   ```
+   DB_ROOT_PASSWORD=your_root_password
+   ```
+3. Build and start all services:
+   ```
+   docker compose up --build
+   ```
+4. Open the app:
+   - Frontend: http://localhost:3000
+   - Backend: http://localhost:8080
+
+### Option 2: Run Locally
+**Database**
+1. Create a MySQL database named `budgetgeneratordatabase`.
+2. Run the scripts in `sql_files/`.
+
+**Backend**
+1. Set the datasource and Gemini API key in the backend configuration:
+   ```
+   SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/budgetgeneratordatabase
+   SPRING_DATASOURCE_USERNAME=<username>
+   SPRING_DATASOURCE_PASSWORD=<password>
+   ```
+2. Build and run:
+   ```
+   cd BE
+   mvn clean install
+   mvn spring-boot:run
+   ```
+   Server runs at http://localhost:8080.
+
+**Frontend**
+```
+cd frontend
 npm install
-
-# Start development server
 npm start
 ```
-> 🖥️ Frontend application will be accessible at http://localhost:3000
+App runs at http://localhost:3000.
 
----
+### Using the App
+1. Register or log in.
+2. Add your income sources.
+3. Add recurring and one-time expenses.
+4. Explore charts, AI recommendations, goals, and forecasts.
 
-## 📱 Application Workflow
+## Troubleshooting
 
-1. **Register/Login** - Create an account or sign in to your existing profile
-2. **Setup Income** - Add your salary and other revenue sources
-3. **Add Expenses** - Enter your recurring and one-time expenses
-4. **Explore Insights** - View AI-generated reports and recommendations
+### Startup Issues
+- **Port Already in Use:**
+  - Free ports 3000, 8080, or 3306, or change the mappings in `docker-compose.yml`.
+- **Backend Cannot Connect to Database:**
+  - Wait for the MySQL healthcheck to pass.
+  - Confirm datasource credentials match your database settings.
 
----
+### AI Issues
+- **No Recommendations Returned:**
+  - Verify your Gemini API key is set and valid.
+  - Check backend logs for API errors.
 
-## 🧠 AI-Powered Features
+### Frontend Issues
+- **Blank Page or Failed Requests:**
+  - Confirm the backend is running at http://localhost:8080.
 
-Auto Budget's integration with Google's Gemini LLM provides:
+## Contributors
 
-- 🔍 **Pattern Recognition** - Identifies spending habits you might miss
-- 💡 **Smart Suggestions** - Offers actionable advice to optimize your budget
-- 🔮 **Financial Forecasting** - Projects future scenarios based on current behavior
-- 🎯 **Goal Optimization** - Recommends adjustments to help you reach targets faster
+- Samuel Laquerre
+- Ahron Ramos
+- Paulo Pineda
+- Grazia Mena
+- Jolie Jony
+- Maliha Chowdhury Adrita
 
----
+## License
 
-## 👥 Development Team
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-This project was developed for SENG 401 at the University of Calgary by:
-
-| Team Member |
-|-------------|
-| Samuel Laquerre 
-| Ahron Ramos 
-| Paulo Pineda
-| Grazia Mena 
-| Jolie Jony 
-| Maliha Chowdhury Adrita
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE)
-
----
+This project was created for SENG 401, University of Calgary.
