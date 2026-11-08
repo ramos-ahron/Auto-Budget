@@ -17,9 +17,7 @@ function ChatList() {
     const [completedAnimations, setCompletedAnimations] = useState(new Set());
     const previousBudgetsRef = useRef([]);
 
-    const userToken = localStorage.getItem("userToken");
     const userEmail = localStorage.getItem("userEmail");
-    const isGuest = !userToken;
 
     // Query for fetching budgets
     const { isPending, error, data } = useQuery({
@@ -231,6 +229,7 @@ function ChatList() {
                                             type="text"
                                             value={editTitle}
                                             onChange={(e) => setEditTitle(e.target.value)}
+                                            aria-label="Budget title"
                                             autoFocus
                                         />
                                         <button type="submit" className="icon-btn save-btn" title="Save">

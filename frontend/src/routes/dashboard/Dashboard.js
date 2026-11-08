@@ -7,7 +7,6 @@ import Expenses from "../../components/expenses/Expenses";
 import Income from "../../components/income/Income";
 import "./dashboard.css";
 import Paper from '@mui/material/Paper';
-import FinancialNotes from '../../components/financialGoals/FinancialNotes';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -17,12 +16,10 @@ function Dashboard({ budgetData }) {
     const budgetTypeRef = useRef();
     const incomeRef = useRef();
     const expensesRef = useRef();
-    const financialNotesRef = useRef();
     const [activeTab, setActiveTab] = useState('form');
     const [llmResponse, setLlmResponse] = useState('');
     const [hasLlmResponse, setHasLlmResponse] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
-    const [shouldSaveAfterGenerate, setShouldSaveAfterGenerate] = useState(false);
     const [isSendingEmail, setIsSendingEmail] = useState(false);
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -119,7 +116,7 @@ function Dashboard({ budgetData }) {
     const [processedData, setProcessedData] = useState({
         expensesArray: [],
         incomesArray: [],
-        budgetType: "weekly",
+        budgetType: "monthly",
         notes: []
     });
 
@@ -178,11 +175,11 @@ function Dashboard({ budgetData }) {
             setProcessedData({
                 expensesArray,
                 incomesArray,
-                budgetType: "weekly",
+                budgetType: "monthly",
                 notes: response ? [{ text: response }] : []
             });
 
-            applyDataToForms(expensesArray, incomesArray, "weekly", response);
+            applyDataToForms(expensesArray, incomesArray, "monthly", response);
         }
     }, [budgetData]);
 
@@ -431,58 +428,11 @@ function Dashboard({ budgetData }) {
                 notes: [{ text: llmResponse }]
             }));
 
-            // Create a save button or option if user wants to save this analysis
-            setShouldSaveAfterGenerate(true);
-
             setIsGenerating(false);
         } catch (error) {
             console.error("Error generating budget analysis:", error);
             setIsGenerating(false);
             throw error;
-        }
-    };
-
-    // Separate method to save analysis if user chooses to
-    const handleSaveAnalysis = async () => {
-        if (!budgetId) return;
-
-        try {
-            setIsGenerating(true);
-
-            // Collect current data
-            const budgetData = budgetTypeRef.current.getBudgetData();
-            const incomeData = incomeRef.current.getIncomeData();
-            const expensesData = expensesRef.current.getExpenseData();
-
-            // Create budget DTO
-            const budgetDTO = {
-                budgetType:
-                    budgetData.selectedType === "weekly" ? 0 :
-                        budgetData.selectedType === "monthly" ? 1 :
-                            budgetData.selectedType === "yearly" ? 2 : 1,
-                budgetTitle: title,
-                categories: [],
-                response: llmResponse
-            };
-
-            const updateUrl = `${process.env.REACT_APP_BUDGETS_API || 'http://localhost:8080'}/budget/update/${budgetId}`;
-            const response = await fetch(updateUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(budgetDTO)
-            });
-
-            const updateData = await response.json();
-
-            // Update caches
-            queryClient.invalidateQueries({ queryKey: ['budgets'] });
-            queryClient.invalidateQueries({ queryKey: ['budget', budgetId] });
-
-            setShouldSaveAfterGenerate(false);
-            setIsGenerating(false);
-        } catch (error) {
-            console.error("Error saving analysis:", error);
-            setIsGenerating(false);
         }
     };
 
@@ -638,6 +588,7 @@ function Dashboard({ budgetData }) {
                             type="text"
                             value={editTitle}
                             onChange={(e) => setEditTitle(e.target.value)}
+                            aria-label="Budget title"
                             autoFocus
                             className="title-input"
                         />
@@ -656,7 +607,10 @@ function Dashboard({ budgetData }) {
                 ) : (
                     <h1 className="budget-title" onClick={handleEditStart}>
                         {title}
-                        <EditIcon fontSize="small" className="edit-icon" />
+                        {/* Keyboard access: activating this button bubbles the click to the h1 */}
+                        <button type="button" className="edit-title-btn" aria-label="Edit budget title">
+                            <EditIcon fontSize="small" className="edit-icon" />
+                        </button>
                     </h1>
                 )}
 

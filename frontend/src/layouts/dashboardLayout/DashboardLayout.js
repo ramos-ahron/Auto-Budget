@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import './dashboardLayout.css';
 import ChatList from '../../components/chatList/ChatList';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -38,7 +38,12 @@ function DashboardLayout() {
     return (
         <div className="dashboard-container">
             {/* Mobile sidebar toggle button - Added open class */}
-            <button className={`sidebar-toggle ${sidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
+            <button
+                className={`sidebar-toggle ${sidebarOpen ? 'open' : ''}`}
+                onClick={toggleSidebar}
+                aria-label="Toggle budget list"
+                aria-expanded={sidebarOpen}
+            >
                 <MenuIcon />
             </button>
 

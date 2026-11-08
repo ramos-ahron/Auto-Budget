@@ -35,3 +35,6 @@ build/
 env.properties
 SENG401-KeyPair1.pem
 application_default_credentials.json
+
+### Node ###
+node_modules/

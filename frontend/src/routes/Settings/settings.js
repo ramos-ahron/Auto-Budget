@@ -1,11 +1,11 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import "./settings.css";
 
 const SettingsPage = () => {
   // Separate states for password update and account deletion
   const [email, setEmail] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
 
@@ -15,20 +15,19 @@ const SettingsPage = () => {
 
   // Function to update the password
   const handlePasswordChange = async () => {
-    if (!email || !newPassword) {
-      setMessage("Email and password cannot be empty!");
+    if (!email || !currentPassword || !newPassword) {
+      setMessage("Email and both passwords are required.");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:8080/user/updatePassword", {
+      const response = await fetch(`${process.env.REACT_APP_BUDGETS_API || 'http://localhost:8080'}/user/updatePassword`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password: newPassword }),
+        body: JSON.stringify({ email, currentPassword, password: newPassword }),
       });
 
       const data = await response.json();
-      console.log("Server Response:", data);
 
       if (response.ok) {
         setMessage("Password updated successfully!");
@@ -49,9 +48,7 @@ const SettingsPage = () => {
     }
 
     try {
-      console.log("Sending request with:", { email: deleteEmail, password: deletePassword });
-
-      const response = await fetch("http://localhost:8080/user/delete", {
+      const response = await fetch(`${process.env.REACT_APP_BUDGETS_API || 'http://localhost:8080'}/user/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -61,7 +58,6 @@ const SettingsPage = () => {
       });
 
       const data = await response.json();
-      console.log("Server Response:", data);
 
       if (response.ok) {
         setDeleteMessage("Account deleted successfully!");
@@ -77,7 +73,7 @@ const SettingsPage = () => {
   return (
     <div className="settings-container">
       <Helmet>
-        <title>Signup - AutoBudget</title>
+        <title>Settings - AutoBudget</title>
       </Helmet>
       <h2 className="settings-title">User Settings</h2>
 
@@ -87,12 +83,24 @@ const SettingsPage = () => {
         <input
           type="email"
           placeholder="Enter your email"
+          aria-label="Email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
+          placeholder="Current Password"
+          aria-label="Current Password"
+          autoComplete="current-password"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+        />
+        <input
+          type="password"
           placeholder="New Password"
+          aria-label="New Password"
+          autoComplete="new-password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
@@ -109,12 +117,16 @@ const SettingsPage = () => {
         <input
           type="email"
           placeholder="Enter your email"
+          aria-label="Email"
+          autoComplete="email"
           value={deleteEmail}
           onChange={(e) => setDeleteEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Current Password"
+          aria-label="Current Password"
+          autoComplete="current-password"
           value={deletePassword}
           onChange={(e) => setDeletePassword(e.target.value)}
         />

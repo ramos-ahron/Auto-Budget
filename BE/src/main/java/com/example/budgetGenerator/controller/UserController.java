@@ -158,6 +158,9 @@ public class UserController {
     public ResponseEntity<?> updateUserPassword(@RequestBody BasicUserDTO newUserInfo){
         try {
             User user = userService.getUser(newUserInfo.getEmail());
+            if(!user.getPassword().equals(newUserInfo.getCurrentPassword())){
+                throw new Exception("Bad Username/Password, please try again");
+            }
             //Set the new password and save the data.
             user.setPassword(newUserInfo.getPassword());
             userService.saveUser(user);
@@ -177,6 +180,9 @@ public class UserController {
     public ResponseEntity<?> deleteAccount(@RequestBody BasicUserDTO toBeDeleted){
         try{
             User user = userService.getUser(toBeDeleted.getEmail());
+            if(!user.getPassword().equals(toBeDeleted.getPassword())){
+                throw new Exception("Bad Username/Password, please try again");
+            }
             userService.deleteUser(user);
             //Notify user of successful deletion
             return ResponseEntity.status(HttpStatus.OK).body(Map.ofEntries(

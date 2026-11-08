@@ -88,8 +88,8 @@ function LoginPage() {
                 <h1>Welcome Back</h1>
                 {error && <p className="error-message">{error}</p>}
                 <form className="loginPage-form" onSubmit={handleLogin}>
-                    <input type="email" name="email" placeholder="Email" ref={emailRef} required />
-                    <input type="password" name="password" placeholder="Password" ref={passwordRef} required />
+                    <input type="email" name="email" placeholder="Email" aria-label="Email" autoComplete="email" ref={emailRef} required />
+                    <input type="password" name="password" placeholder="Password" aria-label="Password" autoComplete="current-password" ref={passwordRef} required />
                     <button type="submit">Log In</button>
                 </form>
 

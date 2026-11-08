@@ -2,9 +2,7 @@ import { useState, forwardRef, useImperativeHandle } from "react";
 import "./budgetType.css";
 
 const BudgetType = forwardRef((props, ref) => {
-    const [selectedType, setSelectedType] = useState("weekly");
-    const [customValue, setCustomValue] = useState(1);
-    const [customUnit, setCustomUnit] = useState("weeks");
+    const [selectedType, setSelectedType] = useState("monthly");
 
     const handleTypeChange = (e) => {
         setSelectedType(e.target.value);
@@ -14,30 +12,12 @@ const BudgetType = forwardRef((props, ref) => {
         setSelectedType(type);
     };
 
-    const handleCustomValueChange = (e) => {
-        const value = parseInt(e.target.value);
-        if (value > 0) {
-            setCustomValue(value);
-        }
-    };
-
-    const handleCustomUnitChange = (e) => {
-        setCustomUnit(e.target.value);
-    };
-
     const setBudgetType = (type) => {
         setSelectedType(type);
     };
 
     useImperativeHandle(ref, () => ({
-        getBudgetData: () => {
-            const data = { selectedType };
-            if (selectedType === "custom") {
-                data.customValue = customValue;
-                data.customUnit = customUnit;
-            }
-            return data;
-        },
+        getBudgetData: () => ({ selectedType }),
         setBudgetType
     }));
 

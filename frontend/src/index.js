@@ -12,7 +12,7 @@ import Dashboard from './routes/dashboard/Dashboard';
 import Budget from './routes/budget/Budget';
 import Home from './routes/home/Home';
 import LoginPage from './routes/Login/LoginPage';
-import SignUpPage from './routes/signUp/signUpPage.js';
+import SignUpPage from './routes/signUp/SignUpPage';
 import SettingsPage from './routes/Settings/settings';
 
 const queryClient = new QueryClient();

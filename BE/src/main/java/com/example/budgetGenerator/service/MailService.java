@@ -1,18 +1,22 @@
 package com.example.budgetGenerator.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
     private final JavaMailSender mailSender;
+    private final String fromAddress;
 
     // Constructor
-    public MailService(JavaMailSender sender) {
+    public MailService(JavaMailSender sender, @Value("${mail.username}") String fromAddress) {
         this.mailSender = sender;
+        this.fromAddress = fromAddress;
     }
 
     //Sends budget receipt to the user
@@ -25,7 +29,8 @@ public class MailService {
             "Best regards,<br>" +
             "<strong>Budget Bozos</strong><br>" +
             "SENG 401 L02 Group 10<br>",
-            userEmail, budgetResponse
+            // Escape caller-supplied text so it cannot inject HTML into the email
+            HtmlUtils.htmlEscape(userEmail), HtmlUtils.htmlEscape(budgetResponse)
         );
 
         sendEmail(userEmail, "Budget Receipt", body);
@@ -63,9 +68,9 @@ public class MailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         // Set email parameters
-        helper.setFrom("acmeplex2@gmail.com");
+        helper.setFrom(fromAddress);
         helper.setTo(recepient);
-        helper.setSubject("Budget Receipt");
+        helper.setSubject(subject);
         helper.setText(convertMarkdownToHtml(content), true);
 
         mailSender.send(message);
