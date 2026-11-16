@@ -38,7 +38,7 @@ Auto Budget is a full-stack personal finance application for tracking income and
 ## Project Structure
 
 ```
-BE/                      # Spring Boot backend
+backend/                 # Spring Boot backend
 frontend/                # React client
 sql_files/               # Database init scripts
 testing/                 # Tests
@@ -67,7 +67,7 @@ README.md                # Main project documentation
    MAIL_USERNAME=you@gmail.com
    MAIL_PASSWORD=your_gmail_app_password
    ```
-3. Save your Google Cloud service account key as `BE/src/main/resources/application_default_credentials.json` (it is gitignored), and set `spring.ai.vertex.ai.gemini.project-id` in `BE/src/main/resources/application.properties` to your project.
+3. Save your Google Cloud service account key as `backend/src/main/resources/application_default_credentials.json` (it is gitignored), and set `spring.ai.vertex.ai.gemini.project-id` in `backend/src/main/resources/application.properties` to your project.
 4. Build and start all services:
    ```
    docker compose up --build
@@ -83,7 +83,7 @@ README.md                # Main project documentation
 
 **Backend**
 1. Set up the Vertex AI credentials as in step 3 of the Docker option.
-2. Set these environment variables (defaults are in `BE/src/main/resources/application.properties`):
+2. Set these environment variables (defaults are in `backend/src/main/resources/application.properties`):
    ```
    SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/budgetgeneratordatabase
    SPRING_DATASOURCE_USERNAME=<username>
@@ -93,7 +93,7 @@ README.md                # Main project documentation
    ```
 3. Build and run:
    ```
-   cd BE
+   cd backend
    ./mvnw spring-boot:run
    ```
    Server runs at http://localhost:8080.
@@ -108,7 +108,7 @@ App runs at http://localhost:3000.
 
 **Tests**
 ```
-cd BE
+cd backend
 ./mvnw test
 ```
 `BudgetGeneratorApplicationTests` starts the full app, so it needs MySQL running. The other tests don't. The Selenium UI tests in `testing/` expect the whole app to be running; see `testing/README.md`.
